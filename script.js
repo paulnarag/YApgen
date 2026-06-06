@@ -1,5 +1,12 @@
 console.log("Script loaded");
 
-document.addEventListener("DOMContentLoaded", () => {
-    // Your JavaScript code here
-});
+
+const charSliderContainer = document.getElementById("charSliderContainer")
+const charSlider = document.getElementById("charSlider")
+const noOfCharsOutput = document.getElementById("noOfCharsOutput")
+
+noOfCharsOutput.innerHTML = charSlider.value
+
+charSlider.oninput = function() {
+    noOfCharsOutput.innerHTML = this.value
+}
