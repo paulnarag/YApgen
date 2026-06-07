@@ -9,28 +9,81 @@ if (!(window.crypto && window.crypto.getRandomValues)) {
     console.log("Crypto API is unavailable")
 }
 
-function generatePassword(length, includeUppercase, includeNumbers, includeSymbols) {
-    const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    const lowercaseChars = "abcdefghijklmnopqrstuvwxyz"
-    const numberChars = "0123456789"
-    const specialChars = "!@#$%^&*()-=_+[]{}|;:,.<>?/"
 
-    let allChars = ""
-    let password = ""
 
-    if (includeNumbers) allChars += numberChars
-    if (includeUppercase) allChars+=uppercaseChars
-    if (!includeUppercase) allChars+=lowercaseChars
+function generateSecurePassword(length = 20) {
+  if (length < 12) {
+    throw new Error("Password length should be at least 12 characters for adequate security.");
+  }
 
-    const allCharsLength = allChars.length
+  const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const lowercase = "abcdefghijklmnopqrstuvwxyz";
+  const numbers = "0123456789";
+  const symbols = "!@#$%^&*()_+-=[]{}|;:,.<>?";
+  
+  // 1. Ensure at least one character from each set is included
+  const mandatory = [
+    getRandomChar(uppercase),
+    getRandomChar(lowercase),
+    getRandomChar(numbers),
+    getRandomChar(symbols)
+  ];
 
-    for (let i=0; i<length; i++) {
-        const randomIndex = Math.floor(window.crypto.getRandomValues(new Uint32Array(1))[0] / (0xFFFFFFFF + 1) * allCharsLength)
-        password += allChars.charAt(randomIndex)
-    }
+  // 2. Build the remaining pool of characters
+  const allChars = uppercase + lowercase + numbers + symbols;
+  const pool = [];
+  
+  // Fill the rest of the password length
+  const remainingLength = length - mandatory.length;
+  for (let i = 0; i < remainingLength; i++) {
+    pool.push(getRandomChar(allChars));
+  }
 
-    return password
+  // 3. Combine and securely shuffle the arrays to hide pattern positions
+  const combined = [...mandatory, ...pool];
+  return secureShuffle(combined).join('');
 }
+
+// Securely picks a single character using the Web Crypto API
+function getRandomChar(charSet) {
+  const cryptoObj = window.crypto || window.msCrypto;
+  if (!cryptoObj) {
+    throw new Error("Cryptography API not supported in this environment.");
+  }
+
+  const array = new Uint32Array(1);
+  let randomValue;
+  
+  // Eliminate modulo bias by discarding values that fall outside an exact multiple
+  const maxValidValue = Math.floor(4294967296 / charSet.length) * charSet.length;
+  
+  do {
+    cryptoObj.getRandomValues(array);
+    randomValue = array[0];
+  } while (randomValue >= maxValidValue);
+
+  return charSet[randomValue % charSet.length];
+}
+
+// Securely shuffles an array using the Fisher-Yates algorithm and CSPRNG
+function secureShuffle(array) {
+  const cryptoObj = window.crypto || window.msCrypto;
+  const uint32Array = new Uint32Array(array.length);
+  cryptoObj.getRandomValues(uint32Array);
+
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = uint32Array[i] % (i + 1);
+    [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+  }
+  return array;
+}
+
+// Example usage:
+const mySecurePassword = generateSecurePassword(24);
+console.log(mySecurePassword);
+
+
+
 
 lengthOutput.innerHTML = lengthSlider.value
 
