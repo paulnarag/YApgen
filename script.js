@@ -1,12 +1,12 @@
 console.log("Script loaded");
 
 
-const charSliderContainer = document.getElementById("charSliderContainer")
-const charSlider = document.getElementById("charSlider")
-const noOfCharsOutput = document.getElementById("noOfCharsOutput")
+const passwordGenerator = document.getElementById("passwordGenerator")
+const lengthSlider = document.getElementById("lengthSlider")
+const lengthOutput = document.getElementById("lengthOutput")
 
-noOfCharsOutput.innerHTML = charSlider.value
+lengthOutput.innerHTML = lengthSlider.value
 
-charSlider.oninput = function() {
-    noOfCharsOutput.innerHTML = this.value
+lengthSlider.oninput = function() {
+    lengthOutput.innerHTML = this.value
 }

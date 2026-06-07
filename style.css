@@ -1,15 +1,43 @@
-* {
+body {
+    padding: 10px;
+}
+
+#passwordGenerator {
+    width: 250px;
+}
+
+#passwordBox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+
+#passwordOutput {
+    width: 100%;
     box-sizing: border-box;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    line-height: 1.5;
+#lengthControl {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
 }
 
-.container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2rem;
+#lengthSlider {
+    flex: 1;
+}
+
+
+#actionButtons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+#actionButtons button {
+    flex: 1;
 }
