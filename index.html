@@ -16,9 +16,27 @@
                 <i class="fa-solid fa-eye"></i>
             </button>
         </div>
+
+    
+
         <div id="lengthControl">
             <input type="range" min="1" max="50" step="1" value="8" id="lengthSlider">
             <p id="lengthOutput"></p>
+        </div>
+       
+        <div id="optionContainer">
+            <div class="optionRow">
+                <input type="checkbox" id="includeUppercase" name="includeUppercase" value="yes">
+                <label for="includeUppercase">Include uppercase</label>
+            </div>
+            <div class="optionRow">
+                <input type="checkbox" id="includeNumbers" name="includeNumbers" value="yes">
+                <label for="includeNumbers">Include numbers</label>
+            </div>
+            <div class="optionRow">
+                <input type="checkbox" id="includeSymbols" name="includeSymbols" value="yes">
+                <label for="includeSymbols">Include symbols</label>
+            </div>
         </div>
 
         <div id="actionButtons">
