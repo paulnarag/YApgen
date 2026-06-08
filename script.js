@@ -64,11 +64,13 @@ if (!(window.crypto && window.crypto.getRandomValues)) {
 
 
 generateButton.addEventListener("click", () => {
+    let length = lengthSlider.value
+
     let uppercase = includeUppercase.checked
     let numbers = includeNumbers.checked
     let symbols = includeSymbols.checked
 
-
+    passwordOutput.value = generateSecurePassword(length, uppercase, numbers, symbols)
 })
 
 
