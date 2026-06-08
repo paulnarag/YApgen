@@ -1,32 +1,3 @@
-function generateSecurePassword(length = 20) {
-    if (length < 12) {
-        throw new Error("Password length should be at least 12 characters for adequate security.");
-    }
-
-    const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const lowercase = "abcdefghijklmnopqrstuvwxyz";
-    const numbers = "0123456789";
-    const symbols = "!@#$%^&*()_+-=[]{}|;:,.<>?";
-
-    const mandatory = [
-        getRandomChar(uppercase),
-        getRandomChar(lowercase),
-        getRandomChar(numbers),
-        getRandomChar(symbols)
-    ];
-
-    const allChars = uppercase + lowercase + numbers + symbols;
-    const passwordChars = [...mandatory];
-
-    const remainingLength = length - mandatory.length;
-
-    for (let i = 0; i < remainingLength; i++) {
-        passwordChars.push(getRandomChar(allChars));
-    }
-
-    return secureShuffle(passwordChars).join("");
-}
-
 function getCrypto() {
     const cryptoObj = window.crypto || window.msCrypto;
 
@@ -37,7 +8,7 @@ function getCrypto() {
     return cryptoObj;
 }
 
-function getSecureRandomIndex(max) {
+export function getSecureRandomIndex(max) {
     const cryptoObj = getCrypto();
     const array = new Uint32Array(1);
 
@@ -53,12 +24,12 @@ function getSecureRandomIndex(max) {
     return randomValue % max;
 }
 
-function getRandomChar(charSet) {
+export function getRandomChar(charSet) {
     const randomIndex = getSecureRandomIndex(charSet.length);
     return charSet[randomIndex];
 }
 
-function secureShuffle(array) {
+export function secureShuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = getSecureRandomIndex(i + 1);
         [array[i], array[j]] = [array[j], array[i]];
