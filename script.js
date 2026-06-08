@@ -14,6 +14,10 @@ const includeSymbols = document.getElementById("includeSymbols")
 const copyButton = document.getElementById("copyButton")
 const generateButton = document.getElementById("generateButton")
 
+includeUppercase.defaultChecked = true
+includeNumbers.defaultChecked = true
+includeSymbols.defaultChecked = true
+
 
 if (!(window.crypto && window.crypto.getRandomValues)) {
     console.log("Crypto API is unavailable")
