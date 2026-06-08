@@ -21,10 +21,20 @@ button {
 }
 
 #passwordOutput {
-    width: 100%;
+    flex: 1;
     box-sizing: border-box;
     border: 1.5px solid;
     border-radius: 5px;
+}
+
+#togglePassword {
+    width: 28px;
+    height: 22px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
 }
 
 #lengthControl {

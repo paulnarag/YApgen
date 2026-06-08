@@ -1,7 +1,7 @@
 import { getRandomChar, secureShuffle } from "./cryptoUtils.js";
 
 const passwordOutput = document.getElementById("passwordOutput")
-const togglePasswordButton = document.getElementById("togglePasswordButton")
+const togglePassword = document.getElementById("togglePassword")
 
 const lengthSlider = document.getElementById("lengthSlider")
 const lengthOutput = document.getElementById("lengthOutput")
@@ -71,6 +71,15 @@ generateButton.addEventListener("click", () => {
     let symbols = includeSymbols.checked
 
     passwordOutput.value = generateSecurePassword(length, uppercase, numbers, symbols)
+})
+
+togglePassword.addEventListener("click", () => {
+    const type = passwordOutput.getAttribute("type") === "password" ? "text" : "password"
+    passwordOutput.setAttribute("type", type)
+    
+    togglePassword.classList.toggle("fa-eye")
+    togglePassword.classList.toggle("fa-eye-slash")
+
 })
 
 copyButton.addEventListener("click", () => {
