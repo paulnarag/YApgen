@@ -19,7 +19,20 @@ if (!(window.crypto && window.crypto.getRandomValues)) {
     console.log("Crypto API is unavailable")
 }
 
+includeUppercase.addEventListener("change", () => {
+    let uppercaseStatus=includeUppercase.checked
+    console.log(uppercaseStatus)
+})
 
+includeNumbers.addEventListener("change", () => {
+    let numbersStatus=includeNumbers.checked
+    console.log(numbersStatus)
+})
+
+includeSymbols.addEventListener("change", () => {
+    let symbolsStatus=includeSymbols.checked
+    console.log(symbolsStatus)
+})
 
 
 
