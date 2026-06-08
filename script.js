@@ -73,6 +73,17 @@ generateButton.addEventListener("click", () => {
     passwordOutput.value = generateSecurePassword(length, uppercase, numbers, symbols)
 })
 
+copyButton.addEventListener("click", () => {
+    passwordOutput.select()
+    passwordOutput.setSelectionRange(0, 99999)
+
+    if (passwordOutput.value=="") {
+        alert("Please generate a password first.")
+    } else {
+        navigator.clipboard.writeText(passwordOutput.value)
+        alert("Password copied to clipboard.")
+    }
+})
 
 lengthOutput.innerHTML = lengthSlider.value
 
