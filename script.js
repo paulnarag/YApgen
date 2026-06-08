@@ -17,7 +17,7 @@ includeUppercase.defaultChecked = true
 includeNumbers.defaultChecked = true
 includeSymbols.defaultChecked = true
 
-function generateSecurePassword() {
+function generateSecurePassword(length, useUppercase, useNumbers, useSymbols) {
     if (length < 12) {
         throw new Error("Password length should be at least 12 characters for adequate security.");
     }
@@ -27,16 +27,28 @@ function generateSecurePassword() {
     const numbers = "0123456789";
     const symbols = "!@#$%^&*()_+-=[]{}|;:,.<>?";
 
+    let allChars = lowercase
+
     const mandatory = [
-        getRandomChar(uppercase),
         getRandomChar(lowercase),
-        getRandomChar(numbers),
-        getRandomChar(symbols)
     ];
 
-    const allChars = uppercase + lowercase + numbers + symbols;
-    const passwordChars = [...mandatory];
+    if (useUppercase) {
+        allChars+=uppercase
+        mandatory.push(getRandomChar(uppercase))
+    }
 
+    if (useNumbers) {
+        allChars+=numbers
+        mandatory.push(getRandomChar(numbers))
+    }
+
+    if (useSymbols) {
+        allChars+=symbols
+        mandatory.push(getRandomChar(symbols))
+    }
+
+    const passwordChars = [...mandatory];
     const remainingLength = length - mandatory.length;
 
     for (let i = 0; i < remainingLength; i++) {
