@@ -76,7 +76,7 @@ generateButton.addEventListener("click", () => {
 togglePassword.addEventListener("click", () => {
     const type = passwordOutput.getAttribute("type") === "password" ? "text" : "password"
     passwordOutput.setAttribute("type", type)
-    
+
     togglePassword.classList.toggle("fa-eye")
     togglePassword.classList.toggle("fa-eye-slash")
 
