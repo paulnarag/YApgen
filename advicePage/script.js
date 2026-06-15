@@ -1,6 +1,8 @@
 const passwordInput = document.getElementById("passwordInput")
 const databreachStatus = document.getElementById("databreachStatus")
 
+// SHA-1 Function 
+// https://mojoauth.com/hashing/sha-1-in-javascript-in-browser#implementing-sha-1-in-javascript-in-browser
 async function sha1(input) {
     // Encode the input string to a Uint8Array
     const encoder = new TextEncoder();
@@ -15,10 +17,9 @@ async function sha1(input) {
     
     return hashHex; // Return the SHA-1 hash as a hex string
 }
-// Example usage
-sha1("Hello, World!").then(hash => console.log(hash));
 
-passwordInput.addEventListener("input", (e) => {
+
+passwordInput.addEventListener("input", async (e) => {
     const password = e.target.value
 
     if (password == "") {
@@ -26,4 +27,7 @@ passwordInput.addEventListener("input", (e) => {
         return
     }
 
+    const hash = await sha1(password)
+
+    console.log(hash)
 })
