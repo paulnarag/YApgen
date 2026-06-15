@@ -15,9 +15,51 @@ async function sha1(input) {
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
     
-    return hashHex; // Return the SHA-1 hash as a hex string
+    return hashHex.toUpperCase(); // Return the SHA-1 hash as a hex string
 }
 
+async function callAPI(hash) {
+    const first5Chars = hash.slice(0, 5)
+    const remainingChars = hash.slice(5)    
+
+    const url = `https://api.pwnedpasswords.com/range/${first5Chars}`
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+
+        const result = await response.text();
+        const lines = result.split("\n")
+
+        const found = lines.find(line => {
+            const [suffix] = line.split(":")
+            return suffix.trim() === remainingChars
+        })
+
+        if (found) {
+            const [, occurrences] = found.split(":")
+            return {
+                found: true,
+                occurrences: Number(occurrences.trim())
+            }
+        }
+
+        return {
+            found: false,
+            occurrences: 0
+        }
+
+    } catch (error) {
+        console.error(error.message);
+
+        return {
+            found: null,
+            occurrences: null
+        }
+    }
+}
 
 passwordInput.addEventListener("input", async (e) => {
     const password = e.target.value
@@ -28,6 +70,13 @@ passwordInput.addEventListener("input", async (e) => {
     }
 
     const hash = await sha1(password)
+    const result = await callAPI(hash)
 
-    console.log(hash)
+    if (result.found === true) {
+        databreachStatus.textContent = `This password has appeared in known data breaches ${result.occurrences} time(s). You should not use this password.`;
+    } else if (result.found === false) {
+        databreachStatus.textContent = "This password was not found in known data breaches.";
+    } else {
+        databreachStatus.textContent = "Unable to check this password right now. Please try again.";
+    }
 })
