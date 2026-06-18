@@ -68,11 +68,26 @@ async function callAPI(hash) {
     }
 }
 
+// AI GENERATED FUNCTION
+function cleanSentence(text) {
+    text = text.trim()
+
+    if (text === "") {
+        return ""
+    }
+
+    if (text.endsWith(".") || text.endsWith("!") || text.endsWith("?")) {
+        return text
+    }
+
+    return text + "."
+}
+
 function checkPasswordStrength(password) {
     const result = zxcvbn(password)
     
     return {
-        crackTime: result.crack_times_display,
+        crackTime: result.crack_times_display.offline_fast_hashing_1e10_per_second,
         score: result.score,
         warning: result.feedback.warning,
         suggestions: result.feedback.suggestions
@@ -84,17 +99,43 @@ passwordInput.addEventListener("input", async (e) => {
 
     if (password == "") {
         databreachStatus.textContent = "Enter a password to check."
+        crackTime.textContent = "Enter a password to check."
+        suggestions.textContent = "Enter a password to see suggestions."
         return
     }
 
-    const hash = await sha1(password)
-    const result = await callAPI(hash)
+    const strengthResult = checkPasswordStrength(password)
 
-    if (result.found === true) {
-        databreachStatus.textContent = `This password has appeared in known data breaches ${result.occurrences} time(s). You should not use this password.`;
-    } else if (result.found === false) {
-        databreachStatus.textContent = "This password was not found in known data breaches.";
+    crackTime.textContent = strengthResult.crackTime
+
+    let adviceParts = []
+
+    const warningText = cleanSentence(strengthResult.warning)
+
+    if (warningText !== "") {
+        adviceParts.push(warningText)
+    }
+
+    const suggestionTexts = strengthResult.suggestions
+        .map(cleanSentence)
+        .filter(text => text !== "")
+
+    adviceParts.push(...suggestionTexts)
+
+    if (adviceParts.length === 0) {
+        suggestions.textContent = "No suggestions. This password looks stronger."
     } else {
-        databreachStatus.textContent = "Unable to check this password right now. Please try again.";
+        suggestions.textContent = adviceParts.join(" ")
+    }
+
+    const hash = await sha1(password)
+    const breachResult = await callAPI(hash)
+
+    if (breachResult.found === true) {
+        databreachStatus.textContent = `This password has appeared in known data breaches ${breachResult.occurrences} time(s). You should not use this password.`
+    } else if (breachResult.found === false) {
+        databreachStatus.textContent = "This password was not found in known data breaches."
+    } else {
+        databreachStatus.textContent = "Unable to check this password right now. Please try again."
     }
 })
