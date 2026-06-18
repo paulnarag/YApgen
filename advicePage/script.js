@@ -1,6 +1,13 @@
 const passwordInput = document.getElementById("passwordInput")
 const databreachStatus = document.getElementById("databreachStatus")
 
+const crackTime = document.getElementById("crackTime")
+
+const suggestionsTitle = document.getElementById("suggestionsTitle")
+const suggestions = document.getElementById("suggestions")
+
+
+
 // SHA-1 Function 
 // https://mojoauth.com/hashing/sha-1-in-javascript-in-browser#implementing-sha-1-in-javascript-in-browser
 async function sha1(input) {
@@ -58,6 +65,17 @@ async function callAPI(hash) {
             found: null,
             occurrences: null
         }
+    }
+}
+
+function checkPasswordStrength(password) {
+    const result = zxcvbn(password)
+    
+    return {
+        crackTime: result.crack_times_display,
+        score: result.score,
+        warning: result.feedback.warning,
+        suggestions: result.feedback.suggestions
     }
 }
 
