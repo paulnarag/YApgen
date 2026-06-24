@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "YApgen",
+  "version": "1.0.0",
+  "description": "Password generator and password advice tools.",
+  "action": {
+    "default_popup": "genPage/index.html"
+  },
+  "permissions": ["clipboardWrite"],
+  "host_permissions": ["https://api.pwnedpasswords.com/*"]
+}

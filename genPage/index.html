@@ -3,16 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>YApgen - Generator</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <h1>YApgen</h1>
+    <header class="appHeader">
+        <div>
+            <p class="eyebrow">YApgen</p>
+            <h1>Password Generator</h1>
+        </div>
+        <nav class="appTabs" aria-label="Extension navigation">
+            <a class="tab active" href="../genPage/index.html">Generator</a>
+            <a class="tab" href="../advicePage/index.html">Advice</a>
+        </nav>
+    </header>
     <div id="passwordGenerator">
         <div id="passwordBox">
             <input type="password" readonly id="passwordOutput">
-            <button id="togglePassword" class="fa-solid fa-eye-slash"></button>
+            <button id="togglePassword" class="fa-solid fa-eye-slash" aria-label="Show or hide password"></button>
         </div>
 
     
